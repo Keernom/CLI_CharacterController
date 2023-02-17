@@ -9,17 +9,18 @@ namespace StateMachine
 {
     public class JumpingState : AiredState
     {
-        private float _jumpHeight;
-
         public JumpingState(Character character, StateMachine stateMachine) : base(character, stateMachine)
         {
-            _jumpHeight = character.JumpHeight;
+            
         }
 
         public override void Enter()
         {
             base.Enter();
-            character.MovementDirection.y = Mathf.Sqrt(2 * _jumpHeight * Mathf.Abs(Physics2D.gravity.y));
+
+            character.JumpsRemain--;
+            float jumpHeight = character.JumpHeight;
+            character.MovementDirection.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
         }
 
         public override void StateUpdate()
@@ -40,7 +41,7 @@ namespace StateMachine
                     }
                     else if (character.IsBumpRightWall(obstacleLayer) || character.IsBumpLeftWall(obstacleLayer))
                     {
-                        character.MoveCharacter(colliderDistance.pointA - colliderDistance.pointB);
+                        character.PlayerTransform.Translate(colliderDistance.pointA - colliderDistance.pointB);
                     }
                 }
             }

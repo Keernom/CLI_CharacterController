@@ -23,7 +23,7 @@ namespace StateMachine
             base.StateUpdate();
 
             character.MovementDirection.y += Physics2D.gravity.y * Time.deltaTime;
-            character.MoveCharacter(character.MovementDirection);
+            character.PlayerTransform.Translate(character.MovementDirection * Time.deltaTime);
         }
 
         public override void Exit()

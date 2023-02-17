@@ -11,20 +11,20 @@ namespace StateMachine
     {
         public RunningState(Character character, StateMachine stateMachine) : base(character, stateMachine)
         {
-            Vector2 runningDirection = new Vector2(character.Speed, 0);
-            character.MovementDirection = runningDirection;
         }
 
         public override void Enter()
         {
             base.Enter();
+
+            Vector2 runningDirection = new Vector2(character.Speed, 0);
+            character.MovementDirection = runningDirection * character.Direction;
         }
 
         public override void StateUpdate()
         {
             base.StateUpdate();
-
-            character.MoveCharacter(character.MovementDirection);
+            character.PlayerTransform.Translate(character.MovementDirection * Time.deltaTime);
 
             Collider2D[] hits = Physics2D.OverlapBoxAll(character.PlayerTransform.position, character.PlayerCollider.size, 0, obstacleLayer);
 
@@ -35,7 +35,9 @@ namespace StateMachine
                 if (colliderDistance.isOverlapped)
                 {
                     if (character.IsBumpRightWall(obstacleLayer) || character.IsBumpLeftWall(obstacleLayer))
-                        character.MoveCharacter(colliderDistance.pointA - colliderDistance.pointB);
+                    {
+                        character.PlayerTransform.Translate(colliderDistance.pointA - colliderDistance.pointB);
+                    }
                 }
             }
         }

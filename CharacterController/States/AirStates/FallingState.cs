@@ -36,12 +36,16 @@ namespace StateMachine
                     }
                     else if (character.IsBumpDownWall(obstacleLayer))
                     {
-                        character.transform.Translate(colliderDistance.pointA - colliderDistance.pointB);
-                        stateMachine.ChangeState(character.Running);
+                        character.PlayerTransform.Translate(colliderDistance.pointA - colliderDistance.pointB);
+
+                        if (character.MovementDirection.x != 0)
+                            stateMachine.ChangeState(character.Running);
+                        else
+                            stateMachine.ChangeState(character.Standing);
                     }
                     else if (character.IsBumpRightWall(obstacleLayer) || character.IsBumpLeftWall(obstacleLayer))
                     {
-                        character.MoveCharacter(colliderDistance.pointA - colliderDistance.pointB);
+                        character.PlayerTransform.Translate(colliderDistance.pointA - colliderDistance.pointB);
                     }
                 }
             }

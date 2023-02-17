@@ -13,6 +13,8 @@ namespace StateMachine
         public State(Character character, StateMachine movementSM)
         {
             obstacleLayer = character.ObstacleLayer;
+            this.character = character;
+            this.stateMachine = movementSM;
         }
 
         public virtual void Enter()

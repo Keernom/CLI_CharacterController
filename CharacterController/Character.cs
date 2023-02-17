@@ -9,7 +9,7 @@ namespace StateMachine
 {
     public class Character : MonoBehaviour
     {
-        internal Vector2 MovementDirection;
+        [SerializeField] internal Vector2 MovementDirection; // Hide In Inspector
         internal StandingState Standing;
         internal RunningState Running;
         internal JumpingState Jumping;
@@ -29,10 +29,7 @@ namespace StateMachine
         [SerializeField] private float _speed;
 
         [Header("Air State Params")]
-        [SerializeField] float _jumpHeight;
         [SerializeField] float _jumpCount;
-        [SerializeField] float _airAcceleration;
-        [SerializeField] float _jumpIncreasingTime = 1;
 
         [Header("Debug")]
         [SerializeField] float _jumpsRemain;
@@ -41,11 +38,14 @@ namespace StateMachine
 
         public Transform PlayerTransform { get { return _playerTransform; } }
         public BoxCollider2D PlayerCollider { get { return _playerCollider; } }
+        public StateMachine StateMachine { get { return _movementSM; } }
 
+        public Vector2 Direction { get; set; }
         public LayerMask ObstacleLayer { get { return _obstacleLayer; } }
+        
+        public float JumpHeight { get; set; }
         public float Speed { get { return _speed; } }
-        public float JumpHeight { get { return _jumpHeight; } }
-
+        
         public float JumpsRemain
         {
             get { return _jumpsRemain; }
@@ -74,14 +74,25 @@ namespace StateMachine
             
         }
 
+        private void Update()
+        {
+            _movementSM.CurrentState.LogicUpdate();
+        }
+
         private void FixedUpdate()
         {
+            Debug.Log(_movementSM.CurrentState);
             _movementSM.CurrentState.StateUpdate();
         }
 
-        public void MoveCharacter(Vector2 velocity)
+        public void DebugMessage(string message)
         {
-            transform.Translate(velocity * Time.deltaTime);
+            Debug.Log(message);
+        }
+
+        public void RestoreJumps()
+        {
+            _jumpsRemain = _jumpCount;
         }
 
         #region MovementTriggers

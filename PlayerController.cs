@@ -6,9 +6,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using StateMachine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Character _characterMovementSM;
+
     private Rigidbody2D _rigidbody2D;
     private Dictionary<string, Vector2> _directions = new Dictionary<string, Vector2>();
     private Vector2 _startPosition;
@@ -22,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _characterMovementSM = GetComponent<Character>();
         _startPosition = transform.position;
     }
 
@@ -31,12 +35,15 @@ public class PlayerController : MonoBehaviour
             settings[0] = settings[0].Replace(',', '.');
 
         float jumpForce = float.Parse(settings[0], CultureInfo.InvariantCulture);
-        _rigidbody2D.AddForce(Vector2.up * 200 * jumpForce);
+
+        _characterMovementSM.JumpHeight = jumpForce;
+        _characterMovementSM.StateMachine.ChangeState(_characterMovementSM.Jumping);
     }
 
     public void Run(params string[] settings)
     {
-        _rigidbody2D.AddForce(_directions[settings[0]] * 150);
+        _characterMovementSM.Direction = _directions[settings[0]];
+        _characterMovementSM.StateMachine.ChangeState(_characterMovementSM.Running);
     }
 
     public void Wait(string time)
@@ -52,5 +59,6 @@ public class PlayerController : MonoBehaviour
     public void ResetPosition()
     {
         transform.position = _startPosition;
+        _characterMovementSM.StateMachine.ChangeState(_characterMovementSM.Standing);
     }
 }

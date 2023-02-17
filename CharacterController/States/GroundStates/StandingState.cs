@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace StateMachine
 {
-    public class StandingState : State
+    public class StandingState : GroundedState
     {
         public StandingState(Character character, StateMachine stateMachine) : base(character, stateMachine)
         {
@@ -16,6 +17,9 @@ namespace StateMachine
         public override void Enter()
         {
             base.Enter();
+
+            character.RestoreJumps();
+            character.MovementDirection = Vector2.zero;
         }
 
         public override void StateUpdate()
