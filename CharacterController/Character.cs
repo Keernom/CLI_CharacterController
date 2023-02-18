@@ -99,25 +99,25 @@ namespace StateMachine
 
         public bool DownSideCheck(LayerMask layer)
         {
-            Vector2 position = new Vector2(transform.position.x, transform.position.y - _playerCollider.size.y / 2);
+            Vector2 position = new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2);
             return Physics2D.OverlapBoxAll(position, _UpDownOverlapSize, 0, layer).Length > 0;
         }
 
         public bool UpSideCheck(LayerMask layer)
         {
-            Vector2 position = new Vector2(transform.position.x, transform.position.y + _playerCollider.size.y / 2);
+            Vector2 position = new Vector2(transform.position.x, transform.position.y + transform.localScale.y / 2);
             return Physics2D.OverlapBoxAll(position, _UpDownOverlapSize, 0, layer).Length > 0;
         }
 
         public bool LeftSideCheck(LayerMask layer)
         {
-            Vector2 position = new Vector2(transform.position.x - _playerCollider.size.x / 2, transform.position.y);
+            Vector2 position = new Vector2(transform.position.x - transform.localScale.x / 2, transform.position.y);
             return Physics2D.OverlapBoxAll(position, _LeftRightOverlapSize, 0, layer).Length > 0;
         }
 
         public bool RightSideCheck(LayerMask layer)
         {
-            Vector2 position = new Vector2(transform.position.x + _playerCollider.size.x / 2, transform.position.y);
+            Vector2 position = new Vector2(transform.position.x + transform.localScale.x / 2, transform.position.y);
             return Physics2D.OverlapBoxAll(position, _LeftRightOverlapSize, 0, layer).Length > 0;
         }
 
@@ -146,19 +146,19 @@ namespace StateMachine
         private void OnDrawGizmos()
         {
             //Downside overlap drawing
-            Vector2 downPosition = new Vector2(transform.position.x, transform.position.y - _playerCollider.size.y / 2);
+            Vector2 downPosition = new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2);
             Gizmos.DrawCube(downPosition, _UpDownOverlapSize);
 
             //Upside overlap drawing
-            Vector2 upPosition = new Vector2(transform.position.x, transform.position.y + _playerCollider.size.y / 2);
+            Vector2 upPosition = new Vector2(transform.position.x, transform.position.y + transform.localScale.y / 2);
             Gizmos.DrawCube(upPosition, _UpDownOverlapSize);
 
             //Leftside overlap drawing
-            Vector2 leftPosition = new Vector2(transform.position.x - _playerCollider.size.x / 2, transform.position.y);
+            Vector2 leftPosition = new Vector2(transform.position.x - transform.localScale.x / 2, transform.position.y);
             Gizmos.DrawCube(leftPosition, _LeftRightOverlapSize);
 
             //Rightside overlap drawing
-            Vector2 rightPosition = new Vector2(transform.position.x + _playerCollider.size.x / 2, transform.position.y);
+            Vector2 rightPosition = new Vector2(transform.position.x + transform.localScale.x / 2, transform.position.y);
             Gizmos.DrawCube(rightPosition, _LeftRightOverlapSize);
         }
     }

@@ -26,7 +26,7 @@ namespace StateMachine
             base.StateUpdate();
             character.PlayerTransform.Translate(character.MovementDirection * Time.deltaTime);
 
-            Collider2D[] hits = Physics2D.OverlapBoxAll(character.PlayerTransform.position, character.PlayerCollider.size, 0, obstacleLayer);
+            Collider2D[] hits = Physics2D.OverlapBoxAll(character.PlayerTransform.position, character.transform.localScale, 0, obstacleLayer);
 
             foreach (Collider2D hit in hits)
             {
